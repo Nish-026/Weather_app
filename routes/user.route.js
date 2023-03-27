@@ -4,7 +4,7 @@ const bcrypt= require('bcrypt');
 require('dotenv').config()
 const jwt= require("jsonwebtoken");
 const {User}= require("../models/user.model")
-
+const client= require("../cache")
 
 userRouter.post("/signup",async(req,res,next)=>{
     try{
@@ -40,6 +40,12 @@ userRouter.post("/login",async(req,res,next)=>{
     }catch(err){
         res.send(err.message)
     }
+})
+
+userRouter.get("/logout",async(req,res)=>{
+    const token = req.headers.authorization.split(' ')[1];
+    await client.lPush("blacklist",`${token}`)
+    res.send("logged out succesfully")
 })
 
 module.exports={
