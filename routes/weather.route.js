@@ -3,7 +3,7 @@ const weatherRouter= express.Router();
 const {authMiddleware}=require("../middleware/authentication")
 const client= require("../cache")
 weatherRouter.get("/",authMiddleware,(req,res)=>{
-    console.log("welcome")
+    res.send("welcome")
 })
 
 weatherRouter.get("/:id",authMiddleware,async(req,res)=>{
